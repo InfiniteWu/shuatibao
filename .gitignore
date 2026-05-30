@@ -7,5 +7,6 @@ server/routes/__pycache__/
 build/
 *.spec
 *.tsbuildinfo
+CLAUDE.md
 Portable/
 *.zip
