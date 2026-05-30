@@ -212,7 +212,6 @@ export default function PracticeSessionPage() {
       setSubmitError(err instanceof Error ? err.message : '交卷失败，请重试')
     } finally {
       setSubmitting(false)
-      setShowSubmit(false)
     }
   }
 
