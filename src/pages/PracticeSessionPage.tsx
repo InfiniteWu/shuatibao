@@ -55,24 +55,6 @@ export default function PracticeSessionPage() {
     }
   }, [navigate])
 
-  // Keyboard navigation: ← → to go previous/next
-  useEffect(() => {
-    if (!ready || questions.length === 0) return
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft' && currentIndex > 0) {
-        e.preventDefault()
-        store.setCurrentIndex(currentIndex - 1)
-      } else if (e.key === 'ArrowRight' && currentIndex < questions.length - 1) {
-        e.preventDefault()
-        store.setCurrentIndex(currentIndex + 1)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [ready, questions.length, currentIndex, store])
-
   const handleResume = () => {
     const saved = store.loadFromLocalStorage()
     if (!saved) {
@@ -114,6 +96,24 @@ export default function PracticeSessionPage() {
 
   const questions = store.questions
   const { currentIndex, answerMap, reviewMode } = store
+
+  // Keyboard navigation: ← → to go previous/next
+  useEffect(() => {
+    if (!ready) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        e.preventDefault()
+        store.setCurrentIndex(currentIndex - 1)
+      } else if (e.key === 'ArrowRight' && currentIndex < questions.length - 1) {
+        e.preventDefault()
+        store.setCurrentIndex(currentIndex + 1)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [ready, questions.length, currentIndex, store])
 
   const recordAnswer = useCallback(
     async (questionId: number, isCorrect: boolean) => {
