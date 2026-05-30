@@ -1,0 +1,9 @@
+node_modules/
+dist/
+server/__pycache__/
+server/routes/__pycache__/
+*.pyc
+*.db
+build/
+*.spec
+*.tsbuildinfo
