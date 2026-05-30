@@ -7,3 +7,5 @@ server/routes/__pycache__/
 build/
 *.spec
 *.tsbuildinfo
+Portable/
+*.zip
