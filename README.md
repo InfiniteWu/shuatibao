@@ -10,15 +10,6 @@
 - **错题本** — 自动收录错题，支持按题库查看和移除
 - **答题统计** — 今日练习量、正确率、错题数等仪表盘数据
 - **多用户** — 内置 100 个用户 ID，方便多人共用
-- **单文件部署** — 支持 PyInstaller 打包为独立 Windows exe
-
-## 技术栈
-
-| 层级 | 技术 |
-|------|------|
-| 前端 | React 19, TypeScript, Vite, TailwindCSS 4, Zustand, React Router 7 |
-| 后端 | Python Flask, SQLite |
-| 打包 | PyInstaller（可选） |
 
 ## 项目结构
 
@@ -43,44 +34,9 @@
 
 ## 快速开始
 
-### 环境要求
+下载shuatibao-portable-windows-X64.zip，解压后双击[启动.bat]即可使用  
 
-- Node.js ≥ 18
-- Python ≥ 3.10
-
-### 1. 安装前端依赖
-
-```bash
-npm install
-```
-
-### 2. 启动前端开发服务器
-
-```bash
-npm run dev
-```
-
-前端运行在 `http://localhost:3000`，API 请求自动代理到后端。
-
-### 3. 安装后端依赖
-
-```bash
-cd server
-pip install -r requirements.txt
-# 或者使用离线包安装：
-pip install --no-index --find-links=packages flask
-```
-
-### 4. 启动后端
-
-```bash
-cd server
-python app.py
-```
-
-后端运行在 `http://localhost:8008`，启动后会自动打开浏览器。
-
-### 5. 导入题库
+## 导入题库
 
 **方式一：Web 界面导入 JSON**
 
@@ -90,11 +46,7 @@ python app.py
 
 ```bash
 # 通用脚本（4列：题型 | 题目 | 选项(;分隔) | 答案(A/B/C)）
-python xlsx2json.py 题库.xlsx
-
-# 特定格式脚本（安环2026 格式）
-python convert_xlsx.py
-```
+python xlsx2json.py [你的题库.xlsx] [保存文件名]
 
 JSON 格式示例：
 
@@ -114,25 +66,7 @@ JSON 格式示例：
 }
 ```
 
-其中 `type` 取值为 `single`（单选）、`multiple`（多选）、`truefalse`（判断），`answer` 为选项索引（多选时为数组）。
-
-## 生产部署
-
-### 方式一：直接运行
-
-```bash
-npm run build          # 构建前端
-cd server && python app.py   # 启动后端（自动托管前端静态文件）
-```
-
-### 方式二：打包为单个 exe
-
-```bash
-pip install pyinstaller
-python build.py
-```
-
-生成的 `dist/shuatibao.exe` 可拷贝到任意 Windows 机器独立运行，无需安装 Python 或 Node.js。
+其中 `type` 取值为 `single`（单选）、`multiple`（多选）、`truefalse`（判断），`answer` 为选项索引（多选时为数组）。  
 
 ## API 接口
 
@@ -159,4 +93,5 @@ python build.py
 
 ## License
 
-MIT
+Apache License 2.0  
+Copyright 二哥刷题宝
