@@ -29,7 +29,7 @@ export default function AnswerCard({ questionIds, answerMap, currentIndex, onJum
               : 'bg-red-500 text-white'
           }
           if (i === currentIndex) {
-            bg += ' ring-2 ring-blue-400 ring-offset-1'
+            bg += ' ring-2 ring-inset ring-blue-400'
           }
 
           return (
