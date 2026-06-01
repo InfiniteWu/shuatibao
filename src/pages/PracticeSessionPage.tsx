@@ -286,8 +286,8 @@ export default function PracticeSessionPage() {
           <span className="text-sm text-gray-400">{currentIndex + 1} / {questions.length}</span>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <p className="text-lg text-gray-800 leading-relaxed">{question.stem}</p>
+        <div className="bg-white rounded-xl border border-gray-200 border-l-4 border-l-blue-400 p-6 mb-6">
+          <p className="text-lg font-semibold text-gray-900 leading-relaxed">{question.stem}</p>
         </div>
 
         {question.type === 'single' && (
@@ -321,26 +321,26 @@ export default function PracticeSessionPage() {
         {(isCorrect || isWrong) && (
           <div className={`mt-4 p-4 rounded-lg ${isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
             <p className="font-medium">{isCorrect ? '回答正确！' : '回答错误'}</p>
-            <p className="text-sm mt-1">
+            <p className="text-base font-medium mt-1">
               正确答案：{Array.isArray(question.answer)
                 ? question.answer.map((a: number) => String.fromCharCode(65 + a) + '. ' + question.options[a]).join('、')
                 : question.options[question.answer as number]}
             </p>
             {question.explanation && (
-              <p className="text-sm mt-1 opacity-80">解析：{question.explanation}</p>
+              <p className="text-base mt-1 opacity-80">解析：{question.explanation}</p>
             )}
           </div>
         )}
 
         {reviewMode && !hasAnswered && (
           <div className="mt-4 p-4 rounded-lg bg-blue-50 text-blue-700">
-            <p className="text-sm">
+            <p className="text-base font-medium">
               正确答案：{Array.isArray(question.answer)
                 ? question.answer.map((a: number) => String.fromCharCode(65 + a) + '. ' + question.options[a]).join('、')
                 : question.options[question.answer as number]}
             </p>
             {question.explanation && (
-              <p className="text-sm mt-1 opacity-80">解析：{question.explanation}</p>
+              <p className="text-base mt-1 opacity-80">解析：{question.explanation}</p>
             )}
           </div>
         )}

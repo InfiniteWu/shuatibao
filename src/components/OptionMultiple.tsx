@@ -33,8 +33,11 @@ export default function OptionMultiple({ options, answer, questionId, disabled, 
 
   return (
     <div className="space-y-3">
+      {!hasConfirmed && !disabled && (
+        <p className="text-xs text-purple-500 font-medium">可多选，选择后点击「确认答案」提交</p>
+      )}
       {options.map((opt, i) => {
-        let bg = 'bg-white border-gray-200 hover:border-blue-300 cursor-pointer'
+        let bg = 'bg-white border-gray-200 hover:border-purple-300 cursor-pointer'
         if (hasConfirmed) {
           if (answer.includes(i)) {
             bg = 'bg-green-50 border-green-400'
@@ -44,7 +47,7 @@ export default function OptionMultiple({ options, answer, questionId, disabled, 
             bg = 'bg-white border-gray-100 opacity-60'
           }
         } else if (selected.includes(i)) {
-          bg = 'bg-blue-50 border-blue-400'
+          bg = 'bg-blue-50 border-purple-400'
         }
 
         return (
@@ -57,11 +60,11 @@ export default function OptionMultiple({ options, answer, questionId, disabled, 
               <span
                 className={`w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 ${
                   selected.includes(i) && !hasConfirmed
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-600'
+                    ? 'bg-purple-500 text-white'
+                    : 'bg-gray-50 text-gray-400'
                 }`}
               >
-                {String.fromCharCode(65 + i)}
+                {selected.includes(i) && !hasConfirmed ? '✓' : String.fromCharCode(65 + i)}
               </span>
               <span className="text-gray-700">{opt}</span>
               {hasConfirmed && answer.includes(i) && (
