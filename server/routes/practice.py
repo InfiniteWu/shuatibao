@@ -49,7 +49,7 @@ def pick_questions():
             q['options'] = json.loads(q['options'])
             q['answer'] = json.loads(q['answer'])
 
-            if shuffle_opts:
+            if shuffle_opts and qtype != 'truefalse':
                 q['options'], q['answer'] = shuffle_options(q['options'], q['answer'])
 
             result.append(q)
