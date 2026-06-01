@@ -1,22 +1,21 @@
 import { usePracticeStore } from '../store/practiceStore'
 
 interface Props {
+  options: string[]
   answer: number
   questionId: number
   disabled: boolean
   onAnswer: (questionId: number, selectedIndex: number, correctAnswer: number) => void
 }
 
-export default function OptionTrueFalse({ answer, questionId, disabled, onAnswer }: Props) {
+export default function OptionTrueFalse({ options, answer, questionId, disabled, onAnswer }: Props) {
   const answerState = usePracticeStore((s) => s.answerMap[questionId])
   const hasAnswered = answerState !== undefined
   const selectedIndex = hasAnswered ? (answerState.selected as number) : null
 
-  const labels = ['对', '错']
-
   return (
     <div className="flex gap-4 sm:gap-6 justify-center">
-      {labels.map((label, i) => {
+      {options.map((label, i) => {
         let bg = 'bg-white border-gray-200 hover:border-blue-300'
         if (hasAnswered) {
           if (i === answer) {

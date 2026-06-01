@@ -310,6 +310,7 @@ export default function PracticeSessionPage() {
         )}
         {question.type === 'truefalse' && (
           <OptionTrueFalse
+            options={question.options}
             answer={question.answer as number}
             questionId={question.id}
             disabled={reviewMode}
