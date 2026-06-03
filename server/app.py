@@ -3,6 +3,7 @@ import socket
 import sys
 import webbrowser
 from flask import Flask, send_from_directory
+from waitress import serve
 
 # 确保当前目录在 sys.path 中（便携式 embeddable Python 兼容）
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -73,4 +74,4 @@ if __name__ == '__main__':
     print(f'  局域网访问: http://{local_ip}:{port}')
     if not getattr(sys, 'frozen', False):
         webbrowser.open(f'http://localhost:{port}')
-    app.run(host='0.0.0.0', port=port, debug=False)
+    serve(app, host='0.0.0.0', port=port, threads=16)

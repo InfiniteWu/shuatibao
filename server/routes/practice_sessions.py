@@ -44,42 +44,47 @@ def submit_practice():
     wrong_count = 0
     unanswered_count = 0
 
-    cursor = conn.execute(
-        'INSERT INTO practice_sessions (user_id, bank_id, mode, total_count) VALUES (?, ?, ?, ?)',
-        (uid, bank_id, mode, total_count)
-    )
-    session_id = cursor.lastrowid
-
-    for qid_str, ans in answers.items():
-        qid = int(qid_str)
-        qrow = question_map.get(qid)
-        if not qrow:
-            continue
-
-        selected = ans.get('selected')
-        is_correct = ans.get('is_correct')
-
-        if selected is None:
-            unanswered_count += 1
-            is_correct_val = None
-        elif is_correct:
-            correct_count += 1
-            is_correct_val = 1
-        else:
-            wrong_count += 1
-            is_correct_val = 0
-
-        conn.execute(
-            'INSERT INTO practice_answers (session_id, question_id, selected_answer, correct_answer, is_correct) VALUES (?, ?, ?, ?, ?)',
-            (session_id, qid, json.dumps(selected), qrow['answer'], is_correct_val)
+    conn.execute('BEGIN')
+    try:
+        cursor = conn.execute(
+            'INSERT INTO practice_sessions (user_id, bank_id, mode, total_count) VALUES (?, ?, ?, ?)',
+            (uid, bank_id, mode, total_count)
         )
+        session_id = cursor.lastrowid
 
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    conn.execute(
-        'UPDATE practice_sessions SET correct_count=?, wrong_count=?, unanswered_count=?, submitted_at=? WHERE id=?',
-        (correct_count, wrong_count, unanswered_count, now, session_id)
-    )
-    conn.commit()
+        for qid_str, ans in answers.items():
+            qid = int(qid_str)
+            qrow = question_map.get(qid)
+            if not qrow:
+                continue
+
+            selected = ans.get('selected')
+            is_correct = ans.get('is_correct')
+
+            if selected is None:
+                unanswered_count += 1
+                is_correct_val = None
+            elif is_correct:
+                correct_count += 1
+                is_correct_val = 1
+            else:
+                wrong_count += 1
+                is_correct_val = 0
+
+            conn.execute(
+                'INSERT INTO practice_answers (session_id, question_id, selected_answer, correct_answer, is_correct) VALUES (?, ?, ?, ?, ?)',
+                (session_id, qid, json.dumps(selected), qrow['answer'], is_correct_val)
+            )
+
+        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        conn.execute(
+            'UPDATE practice_sessions SET correct_count=?, wrong_count=?, unanswered_count=?, submitted_at=? WHERE id=?',
+            (correct_count, wrong_count, unanswered_count, now, session_id)
+        )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
 
     accuracy = round(correct_count / total_count, 2) if total_count > 0 else 0
 
